@@ -1,0 +1,95 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.game-container {
+  border: 2px solid #333;
+  background-color: #000;
+}
+
+.encouragement-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  background-color: #fff;
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 10px;
+  width: 400px;
+}
+
+.sprite {
+  width: 80px;
+  height: 80px;
+  background-color: pink;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-image: url("sprite.png"); /* Add a cute sprite image */
+  background-size: cover;
+  background-position: center;
+  animation: shake 0.5s ease-in-out; /* Add shaking animation */
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.text-box {
+  flex: 1;
+  background-color: #ffebf2;
+  border: 2px solid #ff99cc;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: #ff6699;
+  font-size: 18px;
+  animation: pop 0.5s ease-in-out; /* Add pop animation */
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#encouragement-text {
+  margin: 0;
+}
+
+select, button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
