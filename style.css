@@ -7,6 +7,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 h1 {
@@ -14,12 +15,25 @@ h1 {
 }
 
 .game-container {
-  border: 2px solid #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  border: 5px solid #ff6f61; /* Add a bright border */
+  box-sizing: border-box; /* Ensure the border is included in the dimensions */
+}
+
+canvas {
+  max-width: 100%;
+  max-height: 80vh; /* Limit canvas height to 80% of viewport height */
   background-color: #000;
 }
 
 .encouragement-container {
-  display: flex;
+  display: flex; /* Always visible */
   align-items: center;
   margin-top: 20px;
   background-color: #fff;
@@ -27,18 +41,21 @@ h1 {
   border-radius: 10px;
   padding: 10px;
   width: 400px;
+  position: absolute; /* Position absolutely to avoid being pushed out */
+  bottom: 100px; /* Position above the buttons */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
 }
 
 .sprite {
   width: 80px;
   height: 80px;
-  background-color: pink;
   border-radius: 50%;
   margin-right: 10px;
-  background-image: url("sprite.png"); /* Add a cute sprite image */
+  background-image: url("DialogueEncouragement.jpeg");
   background-size: cover;
   background-position: center;
-  animation: shake 0.5s ease-in-out; /* Add shaking animation */
+  animation: shake 0.5s ease-in-out;
 }
 
 @keyframes shake {
@@ -68,7 +85,7 @@ h1 {
   font-family: "Comic Sans MS", cursive, sans-serif;
   color: #ff6699;
   font-size: 18px;
-  animation: pop 0.5s ease-in-out; /* Add pop animation */
+  animation: pop 0.5s ease-in-out;
 }
 
 @keyframes pop {
@@ -87,9 +104,31 @@ h1 {
   margin: 0;
 }
 
+/* Difficulty selector positioning */
+.difficulty-container {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+/* Play/Pause button positioning */
+.start-pause-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
 select, button {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  margin-top: 20px;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+select:hover, button:hover {
+  background-color: #ff4a3d;
 }
