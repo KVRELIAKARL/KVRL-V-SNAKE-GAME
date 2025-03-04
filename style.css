@@ -52,7 +52,7 @@ canvas {
   height: 80px;
   border-radius: 50%;
   margin-right: 10px;
-  background-image: url("https://imgur.com/cM65bUU");
+  background-image: url("https://i.imgur.com/cM65bUU.png"); /* Direct link to the Imgur image */
   background-size: cover;
   background-position: center;
   animation: shake 0.5s ease-in-out;
