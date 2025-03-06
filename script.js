@@ -39,6 +39,9 @@ const messages = [
   "So close! Just a little more! 🍎",
   "You're on fire! 🔥",
   "Snake-tastic! Keep it up! 🐍✨",
+  "FU Aiden! JK.",
+  "It Also might spawn in the text box. 🫣",
+  "Sorry for the inconvieniences! - karl"
 ];
 
 // Display a random encouraging message
