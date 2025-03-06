@@ -18,6 +18,9 @@ let highScore = localStorage.getItem("highScore") || 0; // Load high score
 let gameSpeed = 100; // Initial game speed
 let isPaused = false;
 
+// Obstacles
+let obstacles = []; // Array to store obstacle positions
+
 // Difficulty settings
 const difficulties = {
   Easy: 150, // Slower pace
@@ -36,7 +39,6 @@ const messages = [
   "So close! Just a little more! 🍎",
   "You're on fire! 🔥",
   "Snake-tastic! Keep it up! 🐍✨",
-  "Take for example... Death. War. Filipinos. There are many things that humanity would be happier without."
 ];
 
 // Display a random encouraging message
@@ -71,6 +73,37 @@ function resizeCanvas() {
   canvas.height = tileCountY * gridSize;
 }
 
+// Generate obstacles
+function generateObstacles() {
+  obstacles = [];
+  const obstacleCount = 5; // Number of obstacles to generate
+
+  for (let i = 0; i < obstacleCount; i++) {
+    let obstacle = {
+      x: Math.floor(Math.random() * tileCountX),
+      y: Math.floor(Math.random() * tileCountY),
+    };
+
+    // Ensure obstacles don't spawn on the snake or food
+    if (
+      !snake.some(segment => segment.x === obstacle.x && segment.y === obstacle.y) &&
+      !(food.x === obstacle.x && food.y === obstacle.y)
+    ) {
+      obstacles.push(obstacle);
+    } else {
+      i--; // Retry generating this obstacle
+    }
+  }
+}
+
+// Draw obstacles
+function drawObstacles() {
+  ctx.fillStyle = "#ff0000"; // Red color for obstacles
+  obstacles.forEach(obstacle => {
+    ctx.fillRect(obstacle.x * gridSize, obstacle.y * gridSize, gridSize, gridSize);
+  });
+}
+
 // Game loop
 function gameLoop() {
   if (!isPaused) {
@@ -93,6 +126,12 @@ function update() {
 
   // Check for self-collision
   if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+    gameOver();
+    return;
+  }
+
+  // Check for obstacle collision
+  if (obstacles.some(obstacle => obstacle.x === head.x && obstacle.y === head.y)) {
     gameOver();
     return;
   }
@@ -122,6 +161,9 @@ function draw() {
   // Clear canvas
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Draw obstacles
+  drawObstacles();
 
   // Draw snake
   ctx.fillStyle = "lime";
@@ -161,8 +203,11 @@ function placeFood() {
     y: Math.floor(Math.random() * safeAreaHeight)
   };
 
-  // Ensure food doesn't spawn on the snake
-  if (snake.some(segment => segment.x === food.x && segment.y === food.y)) {
+  // Ensure food doesn't spawn on the snake or obstacles
+  if (
+    snake.some(segment => segment.x === food.x && segment.y === food.y) ||
+    obstacles.some(obstacle => obstacle.x === food.x && obstacle.y === food.y)
+  ) {
     placeFood(); // Recursively place food again
   }
 }
@@ -186,6 +231,7 @@ function resetGame() {
   score = 0;
   gameSpeed = difficulties[currentDifficulty]; // Reset speed based on difficulty
   placeFood();
+  generateObstacles(); // Regenerate obstacles
 }
 
 // Handle keyboard input
@@ -249,4 +295,5 @@ window.addEventListener("resize", () => {
 // Start the game
 resizeCanvas(); // Initialize canvas size
 placeFood();
+generateObstacles(); // Generate initial obstacles
 gameLoop();
