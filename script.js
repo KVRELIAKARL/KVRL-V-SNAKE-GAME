@@ -29,7 +29,7 @@ const difficulties = {
 };
 let currentDifficulty = "Medium"; // Default difficulty
 
-// Encouraging messages
+// Encouraging messages (including your custom messages)
 const messages = [
   "You're doing great! Keep going! 🌟",
   "Wow, you're amazing! 🐍",
@@ -39,9 +39,9 @@ const messages = [
   "So close! Just a little more! 🍎",
   "You're on fire! 🔥",
   "Snake-tastic! Keep it up! 🐍✨",
-  "FU Aiden! JK.",
-  "It Also might spawn in the text box. 🫣",
-  "Sorry for the inconvieniences! - karl"
+  "FU Aiden! JK. 😜",
+  "It also might spawn in the text box. 🫣",
+  "Sorry for the inconveniences! - Karl 🙏",
 ];
 
 // Display a random encouraging message
@@ -174,10 +174,15 @@ function update() {
     placeFood();
     increaseSpeed(); // Increase speed as score increases
 
-    // Show encouragement and trigger animations
+    // Show encouragement when food is eaten
     showEncouragement();
   } else {
     snake.pop(); // Remove tail if no food eaten
+  }
+
+  // Show encouragement randomly (e.g., every 5 seconds)
+  if (Math.random() < 0.02) { // 2% chance per frame
+    showEncouragement();
   }
 }
 
