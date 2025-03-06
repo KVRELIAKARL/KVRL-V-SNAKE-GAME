@@ -42,6 +42,10 @@ const messages = [
   "FU Aiden! JK. 😜",
   "It also might spawn in the text box. 🫣",
   "Sorry for the inconveniences! - Karl 🙏",
+  "Phoebe Wrote all of these, I swear- 😨",
+  ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡",
+  "Nein. I did not bomb Berlin!",
+  "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!"
 ];
 
 // Display a random encouraging message
