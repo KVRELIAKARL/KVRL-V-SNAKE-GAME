@@ -25,7 +25,7 @@ let obstacles = []; // Array to store obstacle positions
 const difficulties = {
   Easy: 150, // Slower pace
   Medium: 100, // Normal pace
-  Hard: 50, // Faster pace
+  Hard: 50, // Faster pace,
 };
 let currentDifficulty = "Medium"; // Default difficulty
 
