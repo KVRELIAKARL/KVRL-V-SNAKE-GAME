@@ -36,6 +36,7 @@ const messages = [
   "So close! Just a little more! 🍎",
   "You're on fire! 🔥",
   "Snake-tastic! Keep it up! 🐍✨",
+  "Take for example... Death. War. Filipinos. There are many things that humanity would be happier without."
 ];
 
 // Display a random encouraging message
