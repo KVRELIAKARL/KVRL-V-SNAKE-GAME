@@ -73,23 +73,45 @@ function resizeCanvas() {
   canvas.height = tileCountY * gridSize;
 }
 
-// Generate obstacles
+// Generate longer obstacles
 function generateObstacles() {
   obstacles = [];
   const obstacleCount = 5; // Number of obstacles to generate
 
   for (let i = 0; i < obstacleCount; i++) {
-    let obstacle = {
-      x: Math.floor(Math.random() * tileCountX),
-      y: Math.floor(Math.random() * tileCountY),
-    };
+    // Randomly decide if the obstacle will be horizontal or vertical
+    const isHorizontal = Math.random() < 0.5;
+    const length = Math.floor(Math.random() * 5) + 2; // Obstacle length (2 to 6 tiles)
+
+    // Generate starting position
+    let startX = Math.floor(Math.random() * tileCountX);
+    let startY = Math.floor(Math.random() * tileCountY);
+
+    // Adjust starting position to ensure the obstacle fits within the canvas
+    if (isHorizontal) {
+      startX = Math.min(startX, tileCountX - length);
+    } else {
+      startY = Math.min(startY, tileCountY - length);
+    }
+
+    // Generate obstacle segments
+    const obstacle = [];
+    for (let j = 0; j < length; j++) {
+      if (isHorizontal) {
+        obstacle.push({ x: startX + j, y: startY });
+      } else {
+        obstacle.push({ x: startX, y: startY + j });
+      }
+    }
 
     // Ensure obstacles don't spawn on the snake or food
-    if (
-      !snake.some(segment => segment.x === obstacle.x && segment.y === obstacle.y) &&
-      !(food.x === obstacle.x && food.y === obstacle.y)
-    ) {
-      obstacles.push(obstacle);
+    const isOverlapping = obstacle.some(segment =>
+      snake.some(s => s.x === segment.x && s.y === segment.y) ||
+      (food.x === segment.x && food.y === segment.y)
+    );
+
+    if (!isOverlapping) {
+      obstacles.push(...obstacle);
     } else {
       i--; // Retry generating this obstacle
     }
@@ -98,7 +120,7 @@ function generateObstacles() {
 
 // Draw obstacles
 function drawObstacles() {
-  ctx.fillStyle = "#ff0000"; // Red color for obstacles
+  ctx.fillStyle = "#800080"; // Purple color for obstacles
   obstacles.forEach(obstacle => {
     ctx.fillRect(obstacle.x * gridSize, obstacle.y * gridSize, gridSize, gridSize);
   });
