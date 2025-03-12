@@ -63,7 +63,11 @@ const messages = [
   ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡", // New message (Morse code vibes)
   "Nein. I did not bomb Berlin!", // New message
   "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!",
-  "I DID NOT PUT THE ANIME WAIFU! SANA DID" // New message
+  "I DID NOT PUT THE ANIME WAIFU! SANA DID",
+  "Ladies and Gentlemen, We got 'em.",
+  "GOD BLESS AMERICA 🇺🇸",
+  "Aiden looks like a Fiat Multipla",
+  // New message
 ];
 
 // Display a random encouraging message
