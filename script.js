@@ -35,18 +35,13 @@ const messages = [
   "Wow, you're amazing! 🐍",
   "Don't give up! You've got this! 💪",
   "Yay! You're a snake superstar! 🎉",
-  "Keep slithering! You're unstoppable! �",
+  "Keep slithering! You're unstoppable! 🚀",
   "So close! Just a little more! 🍎",
   "You're on fire! 🔥",
   "Snake-tastic! Keep it up! 🐍✨",
   "FU Aiden! JK. 😜",
   "It also might spawn in the text box. 🫣",
   "Sorry for the inconveniences! - Karl 🙏",
-  "Phoebe Wrote all of these, I swear- 😨", // New message
-  ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡", // New message (Morse code vibes)
-  "Nein. I did not bomb Berlin!", // New message
-  "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!", 
-  "'I am the least racist person you will ever meet' - Donald Trump"// New message
 ];
 
 // Display a random encouraging message
