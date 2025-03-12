@@ -21,30 +21,13 @@ const canvas = document.getElementById("game-board");
  // Obstacles
  let obstacles = []; // Array to store obstacle positions
  
- // Difficulty Selector
+ // Difficulty settings
  const difficulties = {
    Easy: 150, // Slower pace
    Medium: 100, // Normal pace
-   Hard: 50, // Faster pace
-   Impossible: 20, // Extremely fast pace (Impossible Mode)
+   Hard: 50, // Faster pace,
  };
- 
- const difficultySelector = document.createElement("select");
- difficultySelector.innerHTML = `
-   <option value="Easy">Easy</option>
-   <option value="Medium" selected>Medium</option>
-   <option value="Hard">Hard</option>
-   <option value="Impossible">Impossible</option> <!-- New option -->
- `;
- difficultyContainer.appendChild(difficultySelector);
- 
- difficultySelector.addEventListener("change", () => {
-   currentDifficulty = difficultySelector.value;
-   if (currentDifficulty === "Impossible") {
-     alert("Warning: Impossible Mode is extremely fast and challenging! Are you sure you're ready?");
-   }
-   resetGame(); // Reset game with new difficulty
- });
+ let currentDifficulty = "Medium"; // Default difficulty
  
  // Encouraging messages (including your custom messages)
  const messages = [
@@ -52,6 +35,7 @@ const canvas = document.getElementById("game-board");
    "Wow, you're amazing! 🐍",
    "Don't give up! You've got this! 💪",
    "Yay! You're a snake superstar! 🎉",
+   "Keep slithering! You're unstoppable! 🚀",
    "Keep slithering! You're unstoppable! �",
    "So close! Just a little more! 🍎",
    "You're on fire! 🔥",
@@ -59,16 +43,14 @@ const canvas = document.getElementById("game-board");
    "FU Aiden! JK. 😜",
    "It also might spawn in the text box. 🫣",
    "Sorry for the inconveniences! - Karl 🙏",
+   "Phoebe Wrote all of these, I swear- 😨",
+   ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡",
+   "Nein. I did not bomb Berlin!",
+   "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!"
    "Phoebe Wrote all of these, I swear- 😨", // New message
    ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡", // New message (Morse code vibes)
    "Nein. I did not bomb Berlin!", // New message
-   "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!",
-   "I DID NOT PUT THE ANIME WAIFU! SANA DID" // New message
-   "I DID NOT PUT THE ANIME WAIFU! SANA DID",
-   "Ladies and Gentlemen, We got 'em.",
-   "GOD BLESS AMERICA 🇺🇸",
-   "Aiden looks like a Fiat Multipla",
-   // New message
+   "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!", // New message
  ];
  
  // Display a random encouraging message
