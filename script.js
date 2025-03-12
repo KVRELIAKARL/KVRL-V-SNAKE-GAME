@@ -21,30 +21,14 @@ let isPaused = false;
 // Obstacles
 let obstacles = []; // Array to store obstacle positions
 
-// Difficulty Selector
+// Difficulty settings
 const difficulties = {
   Easy: 150, // Slower pace
   Medium: 100, // Normal pace
   Hard: 50, // Faster pace
   Impossible: 20, // Extremely fast pace (Impossible Mode)
 };
-
-const difficultySelector = document.createElement("select");
-difficultySelector.innerHTML = `
-  <option value="Easy">Easy</option>
-  <option value="Medium" selected>Medium</option>
-  <option value="Hard">Hard</option>
-  <option value="Impossible">Impossible</option> <!-- New option -->
-`;
-difficultyContainer.appendChild(difficultySelector);
-
-difficultySelector.addEventListener("change", () => {
-  currentDifficulty = difficultySelector.value;
-  if (currentDifficulty === "Impossible") {
-    alert("Warning: Impossible Mode is extremely fast and challenging! Are you sure you're ready?");
-  }
-  resetGame(); // Reset game with new difficulty
-});
+let currentDifficulty = "Medium"; // Default difficulty
 
 // Encouraging messages (including your custom messages)
 const messages = [
@@ -52,22 +36,22 @@ const messages = [
   "Wow, you're amazing! 🐍",
   "Don't give up! You've got this! 💪",
   "Yay! You're a snake superstar! 🎉",
-  "Keep slithering! You're unstoppable! �",
-  "So close! Just a little more! 🍎",
+  "Keep slithering! You're unstoppable! 🚀",
+  "So close! Just a little more! �",
   "You're on fire! 🔥",
   "Snake-tastic! Keep it up! 🐍✨",
   "FU Aiden! JK. 😜",
   "It also might spawn in the text box. 🫣",
   "Sorry for the inconveniences! - Karl 🙏",
-  "Phoebe Wrote all of these, I swear- 😨", // New message
-  ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡", // New message (Morse code vibes)
-  "Nein. I did not bomb Berlin!", // New message
+  "Phoebe Wrote all of these, I swear- 😨",
+  ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡",
+  "Nein. I did not bomb Berlin!",
   "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!",
-  "I DID NOT PUT THE ANIME WAIFU! SANA DID",
-  "Ladies and Gentlemen, We got 'em.",
-  "GOD BLESS AMERICA 🇺🇸",
-  "Aiden looks like a Fiat Multipla",
-  // New message
+  "'I am a Furry' - Sana",
+  "'The concept of global warming was created by and for the Chinese.' - Donald Trump",
+  "'I could shoot somebody and wouldn't lose any voters' - Donald Trump",
+  "'Look at my African American over here!' - Donald Trump",
+  "'I am the least racist person you will ever meet' - Donald Trump
 ];
 
 // Display a random encouraging message
@@ -238,6 +222,7 @@ function draw() {
   ctx.fillText(`High Score: ${highScore}`, 10, 60);
 
   // Draw difficulty
+  ctx.fillStyle = currentDifficulty === "Impossible" ? "red" : "white"; // Red text for Impossible Mode
   ctx.fillText(`Difficulty: ${currentDifficulty}`, 10, 90);
 
   // Draw pause message
@@ -270,14 +255,30 @@ function placeFood() {
 
 // Increase game speed as score increases
 function increaseSpeed() {
-  if (gameSpeed > 50) {
-    gameSpeed -= 2; // Decrease interval to increase speed
+  if (currentDifficulty !== "Impossible") { // Don't increase speed in Impossible Mode
+    if (gameSpeed > 50) {
+      gameSpeed -= 2; // Decrease interval to increase speed
+    }
   }
 }
 
 // Game over logic
 function gameOver() {
-  resetGame();
+  ctx.fillStyle = "white";
+  ctx.font = "40px Arial";
+  ctx.fillText("Game Over!", canvas.width / 2 - 100, canvas.height / 2);
+  ctx.font = "20px Arial";
+  ctx.fillText("Press Space to Play Again", canvas.width / 2 - 120, canvas.height / 2 + 40);
+
+  // Listen for spacebar to reset the game
+  document.addEventListener("keydown", handleGameOverInput);
+}
+
+function handleGameOverInput(e) {
+  if (e.key === " ") {
+    resetGame();
+    document.removeEventListener("keydown", handleGameOverInput); // Remove the listener after resetting
+  }
 }
 
 // Reset game
@@ -321,11 +322,15 @@ difficultySelector.innerHTML = `
   <option value="Easy">Easy</option>
   <option value="Medium" selected>Medium</option>
   <option value="Hard">Hard</option>
+  <option value="Impossible">Impossible</option>
 `;
 difficultyContainer.appendChild(difficultySelector);
 
 difficultySelector.addEventListener("change", () => {
   currentDifficulty = difficultySelector.value;
+  if (currentDifficulty === "Impossible") {
+    alert("Warning: Impossible Mode is extremely fast and challenging! Are you sure you're ready?");
+  }
   resetGame(); // Reset game with new difficulty
 });
 
