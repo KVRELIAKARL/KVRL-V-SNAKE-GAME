@@ -1,4 +1,4 @@
-script:const canvas = document.getElementById("game-board");
+const canvas = document.getElementById("game-board");
 const ctx = canvas.getContext("2d");
 const encouragementText = document.getElementById("encouragement-text");
 const textBox = document.querySelector(".text-box");
