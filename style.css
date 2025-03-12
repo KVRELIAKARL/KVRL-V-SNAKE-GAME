@@ -1,78 +1,143 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   height: 100vh;
-  background-color: #000;
+  margin: 0;
   font-family: Arial, sans-serif;
+  background: linear-gradient(45deg, #333, #555, #777, #999, #777, #555, #333);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: white;
 }
 
 .game-container {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  border: 5px solid #ff6f61; /* Add a bright border */
+  box-sizing: border-box; /* Ensure the border is included in the dimensions */
 }
 
-#game-board {
-  border: 2px solid lime;
-  background-color: #000;
-  display: block;
-  margin: 0 auto;
+canvas {
+  max-width: 100%;
+  max-height: 80vh; /* Limit canvas height to 80% of viewport height */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
 }
 
 .encouragement-container {
-  margin-top: 20px;
-  display: flex;
+  display: flex; /* Always visible */
   align-items: center;
-  justify-content: center;
-}
-
-.text-box {
-  background-color: #333;
-  color: white;
+  margin-top: 20px;
+  background-color: #fff;
+  border: 2px solid #333;
+  border-radius: 10px;
   padding: 10px;
-  border-radius: 5px;
-  margin-right: 10px;
-  animation: pop 0.5s ease-in-out;
+  width: 400px;
+  position: absolute; /* Position absolutely to avoid being pushed out */
+  bottom: 100px; /* Position above the buttons */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
 }
 
 .sprite {
-  font-size: 24px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-image: url("https://i.imgur.com/cM65bUU.png"); /* Direct link to the Imgur image */
+  background-size: cover; /* Ensure the image covers the entire circle */
+  background-position: center; /* Center the image */
   animation: shake 0.5s ease-in-out;
 }
 
-@keyframes pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-}
-
 @keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
-.difficulty-container, .start-pause-container {
-  margin-top: 20px;
+.text-box {
+  flex: 1;
+  background-color: #ffebf2;
+  border: 2px solid #ff99cc;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: #ff6699;
+  font-size: 18px;
+  animation: pop 0.5s ease-in-out;
 }
 
-button {
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#encouragement-text {
+  margin: 0;
+}
+
+/* Difficulty selector positioning */
+.difficulty-container {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+/* Play/Pause button positioning */
+.start-pause-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+select, button {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  background-color: lime;
+  background-color: #ff6f61;
+  color: white;
   border: none;
   border-radius: 5px;
-  color: #000;
+  transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #32cd32;
+select:hover, button:hover {
+  background-color: #ff4a3d;
 }
