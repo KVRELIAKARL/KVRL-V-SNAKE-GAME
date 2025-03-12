@@ -21,13 +21,30 @@ let isPaused = false;
 // Obstacles
 let obstacles = []; // Array to store obstacle positions
 
-// Difficulty settings
+// Difficulty Selector
 const difficulties = {
   Easy: 150, // Slower pace
   Medium: 100, // Normal pace
-  Hard: 50, // Faster pace,
+  Hard: 50, // Faster pace
+  Impossible: 20, // Extremely fast pace (Impossible Mode)
 };
-let currentDifficulty = "Medium"; // Default difficulty
+
+const difficultySelector = document.createElement("select");
+difficultySelector.innerHTML = `
+  <option value="Easy">Easy</option>
+  <option value="Medium" selected>Medium</option>
+  <option value="Hard">Hard</option>
+  <option value="Impossible">Impossible</option> <!-- New option -->
+`;
+difficultyContainer.appendChild(difficultySelector);
+
+difficultySelector.addEventListener("change", () => {
+  currentDifficulty = difficultySelector.value;
+  if (currentDifficulty === "Impossible") {
+    alert("Warning: Impossible Mode is extremely fast and challenging! Are you sure you're ready?");
+  }
+  resetGame(); // Reset game with new difficulty
+});
 
 // Encouraging messages (including your custom messages)
 const messages = [
