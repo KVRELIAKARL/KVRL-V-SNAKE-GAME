@@ -62,7 +62,8 @@ const messages = [
   "Phoebe Wrote all of these, I swear- 😨", // New message
   ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡", // New message (Morse code vibes)
   "Nein. I did not bomb Berlin!", // New message
-  "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!", // New message
+  "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!",
+  "I DID NOT PUT THE ANIME WAIFU! SANA DID" // New message
 ];
 
 // Display a random encouraging message
