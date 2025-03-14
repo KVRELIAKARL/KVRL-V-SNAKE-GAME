@@ -7,14 +7,26 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <h1>Snake Game</h1>
   <div class="game-container">
     <canvas id="game-board"></canvas>
     <div class="encouragement-container">
+      <div class="sprite"></div>
       <div class="text-box">
         <p id="encouragement-text"></p>
       </div>
-      <div class="sprite">🐍</div>
     </div>
+  </div>
+  <div class="difficulty-container">
+    <select id="difficulty-selector">
+      <option value="Easy">Easy</option>
+      <option value="Medium" selected>Medium</option>
+      <option value="Hard">Hard</option>
+      <option value="Impossible">Impossible</option>
+    </select>
+  </div>
+  <div class="start-pause-container">
+    <button id="start-pause-button">Start/Pause</button>
   </div>
   <script src="script.js"></script>
 </body>
