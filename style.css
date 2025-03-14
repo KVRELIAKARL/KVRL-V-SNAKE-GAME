@@ -6,41 +6,52 @@ body {
   height: 100vh;
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+  background: linear-gradient(45deg, #333, #555, #777, #999, #777, #555, #333);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 h1 {
   margin-bottom: 20px;
-  color: #333;
+  color: white;
 }
 
 .game-container {
-  border: 2px solid #333;
-  background-color: #000;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 800px; /* Limit the game container width */
-  margin: 0 auto;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  border: 5px solid #ff6f61; /* Add a bright border */
+  box-sizing: border-box; /* Ensure the border is included in the dimensions */
 }
 
 canvas {
-  display: block;
-  margin: 0 auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  max-width: 100%;
+  max-height: 80vh; /* Limit canvas height to 80% of viewport height */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
 }
 
 .encouragement-container {
-  display: flex;
+  display: flex; /* Always visible */
   align-items: center;
-  justify-content: center; /* Center horizontally */
   margin-top: 20px;
   background-color: #fff;
   border: 2px solid #333;
   border-radius: 10px;
   padding: 10px;
   width: 400px;
-  position: absolute;
-  bottom: 20px; /* Position above the buttons */
+  position: absolute; /* Position absolutely to avoid being pushed out */
+  bottom: 100px; /* Position above the buttons */
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Center horizontally */
 }
@@ -48,12 +59,11 @@ canvas {
 .sprite {
   width: 80px;
   height: 80px;
-  background-color: pink;
   border-radius: 50%;
   margin-right: 10px;
-  background-image: url("https://i.imgur.com/cM65bUU.png"); /* Add a cute sprite image */
-  background-size: cover;
-  background-position: center;
+  background-image: url("https://i.imgur.com/cM65bUU.png"); /* Direct link to the Imgur image */
+  background-size: cover; /* Ensure the image covers the entire circle */
+  background-position: center; /* Center the image */
   animation: shake 0.5s ease-in-out;
 }
 
