@@ -1,9 +1,8 @@
 const canvas = document.getElementById("game-board");
 const ctx = canvas.getContext("2d");
 const encouragementText = document.getElementById("encouragement-text");
-const textBox = document.querySelector(".text-box");
-const sprite = document.querySelector(".sprite");
-const encouragementContainer = document.querySelector(".encouragement-container");
+const difficultySelector = document.getElementById("difficulty-selector");
+const startPauseButton = document.getElementById("start-pause-button");
 
 // Game settings
 const gridSize = 20; // Size of each grid square
@@ -25,11 +24,12 @@ let obstacles = []; // Array to store obstacle positions
 const difficulties = {
   Easy: 150, // Slower pace
   Medium: 100, // Normal pace
-  Hard: 50, // Faster pace,
+  Hard: 50, // Faster pace
+  Impossible: 20, // Extremely fast pace (Impossible Mode)
 };
 let currentDifficulty = "Medium"; // Default difficulty
 
-// Encouraging messages
+// Encouraging messages (including your custom messages)
 const messages = [
   "You're doing great! Keep going! 🌟",
   "Wow, you're amazing! 🐍",
@@ -39,6 +39,13 @@ const messages = [
   "So close! Just a little more! 🍎",
   "You're on fire! 🔥",
   "Snake-tastic! Keep it up! 🐍✨",
+  "FU Aiden! JK. 😜",
+  "It also might spawn in the text box. 🫣",
+  "Sorry for the inconveniences! - Karl 🙏",
+  "Phoebe Wrote all of these, I swear- 😨",
+  ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡",
+  "Nein. I did not bomb Berlin!",
+  "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!",
 ];
 
 // Display a random encouraging message
@@ -47,12 +54,14 @@ function showEncouragement() {
   encouragementText.textContent = randomMessage;
 
   // Trigger pop animation for text box
+  const textBox = document.querySelector(".text-box");
   textBox.style.animation = "none"; // Reset animation
   setTimeout(() => {
     textBox.style.animation = "pop 0.5s ease-in-out";
   }, 10);
 
   // Trigger shake animation for sprite
+  const sprite = document.querySelector(".sprite");
   sprite.style.animation = "none"; // Reset animation
   setTimeout(() => {
     sprite.style.animation = "shake 0.5s ease-in-out";
@@ -171,10 +180,15 @@ function update() {
     placeFood();
     increaseSpeed(); // Increase speed as score increases
 
-    // Show encouragement and trigger animations
+    // Show encouragement when food is eaten
     showEncouragement();
   } else {
     snake.pop(); // Remove tail if no food eaten
+  }
+
+  // Show encouragement randomly (e.g., every 5 seconds)
+  if (Math.random() < 0.02) { // 2% chance per frame
+    showEncouragement();
   }
 }
 
@@ -204,6 +218,7 @@ function draw() {
   ctx.fillText(`High Score: ${highScore}`, 10, 60);
 
   // Draw difficulty
+  ctx.fillStyle = currentDifficulty === "Impossible" ? "red" : "white"; // Red text for Impossible Mode
   ctx.fillText(`Difficulty: ${currentDifficulty}`, 10, 90);
 
   // Draw pause message
@@ -236,14 +251,30 @@ function placeFood() {
 
 // Increase game speed as score increases
 function increaseSpeed() {
-  if (gameSpeed > 50) {
-    gameSpeed -= 2; // Decrease interval to increase speed
+  if (currentDifficulty !== "Impossible") { // Don't increase speed in Impossible Mode
+    if (gameSpeed > 50) {
+      gameSpeed -= 2; // Decrease interval to increase speed
+    }
   }
 }
 
 // Game over logic
 function gameOver() {
-  resetGame();
+  ctx.fillStyle = "white";
+  ctx.font = "40px Arial";
+  ctx.fillText("Game Over!", canvas.width / 2 - 100, canvas.height / 2);
+  ctx.font = "20px Arial";
+  ctx.fillText("Press Space to Play Again", canvas.width / 2 - 120, canvas.height / 2 + 40);
+
+  // Listen for spacebar to reset the game
+  document.addEventListener("keydown", handleGameOverInput);
+}
+
+function handleGameOverInput(e) {
+  if (e.key === " ") {
+    resetGame();
+    document.removeEventListener("keydown", handleGameOverInput); // Remove the listener after resetting
+  }
 }
 
 // Reset game
@@ -278,32 +309,15 @@ document.addEventListener("keydown", e => {
 });
 
 // Difficulty selector
-const difficultyContainer = document.createElement("div");
-difficultyContainer.classList.add("difficulty-container");
-document.body.appendChild(difficultyContainer);
-
-const difficultySelector = document.createElement("select");
-difficultySelector.innerHTML = `
-  <option value="Easy">Easy</option>
-  <option value="Medium" selected>Medium</option>
-  <option value="Hard">Hard</option>
-`;
-difficultyContainer.appendChild(difficultySelector);
-
 difficultySelector.addEventListener("change", () => {
   currentDifficulty = difficultySelector.value;
+  if (currentDifficulty === "Impossible") {
+    alert("Warning: Impossible Mode is extremely fast and challenging! Are you sure you're ready?");
+  }
   resetGame(); // Reset game with new difficulty
 });
 
 // Start/Pause button
-const startPauseContainer = document.createElement("div");
-startPauseContainer.classList.add("start-pause-container");
-document.body.appendChild(startPauseContainer);
-
-const startPauseButton = document.createElement("button");
-startPauseButton.innerText = "Start/Pause";
-startPauseContainer.appendChild(startPauseButton);
-
 startPauseButton.addEventListener("click", () => {
   isPaused = !isPaused;
 });
