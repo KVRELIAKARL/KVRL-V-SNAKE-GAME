@@ -18,6 +18,9 @@ h1 {
   border: 2px solid #333;
   background-color: #000;
   position: relative;
+  width: 100%;
+  max-width: 800px; /* Limit the game container width */
+  margin: 0 auto;
 }
 
 canvas {
@@ -29,6 +32,7 @@ canvas {
 .encouragement-container {
   display: flex;
   align-items: center;
+  justify-content: center; /* Center horizontally */
   margin-top: 20px;
   background-color: #fff;
   border: 2px solid #333;
@@ -36,7 +40,7 @@ canvas {
   padding: 10px;
   width: 400px;
   position: absolute;
-  bottom: 100px; /* Position above the buttons */
+  bottom: 20px; /* Position above the buttons */
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Center horizontally */
 }
