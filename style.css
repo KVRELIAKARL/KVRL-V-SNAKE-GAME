@@ -1,137 +1,113 @@
 body {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   height: 100vh;
-   margin: 0;
-   font-family: Arial, sans-serif;
-   background-color: #f0f0f0;
-   overflow: hidden; /* Prevent scrolling */
- }
- 
- h1 {
-   margin-bottom: 20px;
- }
- 
- .game-container {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   width: 100%;
-   height: 100%;
-   background-color: #000;
-   border: 5px solid #ff6f61; /* Add a bright border */
-   box-sizing: border-box; /* Ensure the border is included in the dimensions */
- }
- 
- canvas {
-   max-width: 100%;
-   max-height: 80vh; /* Limit canvas height to 80% of viewport height */
-   background-color: #000;
- }
- 
- .encouragement-container {
-   display: flex; /* Always visible */
-   align-items: center;
-   margin-top: 20px;
-   background-color: #fff;
-   border: 2px solid #333;
-   border-radius: 10px;
-   padding: 10px;
-   width: 400px;
-   position: absolute; /* Position absolutely to avoid being pushed out */
-   bottom: 100px; /* Position above the buttons */
-   left: 50%; /* Center horizontally */
-   transform: translateX(-50%); /* Center horizontally */
- }
- 
- .sprite {
-   width: 80px;
-   height: 80px;
-   border-radius: 50%;
-   margin-right: 10px;
-   background-image: url("https://ibb.co/N2KxFgpb"); /* Direct link to the Imgur image */
-   background-size: cover;
-   background-position: center;
-   background-image: url("https://i.imgur.com/cM65bUU.png"); /* Direct link to the Imgur image */
-   background-size: cover; /* Ensure the image covers the entire circle */
-   background-position: center; /* Center the image */
-   animation: shake 0.5s ease-in-out;
- }
- 
- @keyframes shake {
-   0% {
-     transform: translateX(0);
-   }
-   25% {
-     transform: translateX(-5px);
-   }
-   50% {
-     transform: translateX(5px);
-   }
-   75% {
-     transform: translateX(-5px);
-   }
-   100% {
-     transform: translateX(0);
-   }
- }
- 
- .text-box {
-   flex: 1;
-   background-color: #ffebf2;
-   border: 2px solid #ff99cc;
-   border-radius: 10px;
-   padding: 10px;
-   font-family: "Comic Sans MS", cursive, sans-serif;
-   color: #ff6699;
-   font-size: 18px;
-   animation: pop 0.5s ease-in-out;
- }
- 
- @keyframes pop {
-   0% {
-     transform: scale(1);
-   }
-   50% {
-     transform: scale(1.1);
-   }
-   100% {
-     transform: scale(1);
-   }
- }
- 
- #encouragement-text {
-   margin: 0;
- }
- 
- /* Difficulty selector positioning */
- .difficulty-container {
-   position: absolute;
-   bottom: 20px;
-   left: 20px;
- }
- 
- /* Play/Pause button positioning */
- .start-pause-container {
-   position: absolute;
-   bottom: 20px;
-   right: 20px;
- }
- 
- select, button {
-   padding: 10px 20px;
-   font-size: 16px;
-   cursor: pointer;
-   background-color: #ff6f61;
-   color: white;
-   border: none;
-   border-radius: 5px;
-   transition: background-color 0.3s;
- }
- 
- select:hover, button:hover {
-   background-color: #ff4a3d;
- }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.game-container {
+  border: 2px solid #333;
+  background-color: #000;
+  position: relative;
+}
+
+canvas {
+  display: block;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.encouragement-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  background-color: #fff;
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 10px;
+  width: 400px;
+  position: absolute;
+  bottom: 100px; /* Position above the buttons */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+}
+
+.sprite {
+  width: 80px;
+  height: 80px;
+  background-color: pink;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-image: url("https://i.imgur.com/cM65bUU.png"); /* Add a cute sprite image */
+  background-size: cover;
+  background-position: center;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.text-box {
+  flex: 1;
+  background-color: #ffebf2;
+  border: 2px solid #ff99cc;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: #ff6699;
+  font-size: 18px;
+  animation: pop 0.5s ease-in-out;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+#encouragement-text {
+  margin: 0;
+}
+
+/* Difficulty selector positioning */
+.difficulty-container {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+/* Play/Pause button positioning */
+.start-pause-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+select, button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+select:hover, button:hover {
+  background-color: #ff4a3d;
+}
