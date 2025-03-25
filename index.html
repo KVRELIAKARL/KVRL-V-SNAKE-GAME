@@ -4,29 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Snake Game</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+  <style>
+    /* CSS will be embedded here */
+  </style>
 </head>
 <body>
   <h1>Snake Game</h1>
   <div class="game-container">
-    <canvas id="game-board"></canvas>
-    <div class="encouragement-container">
-      <div class="sprite"></div>
-      <div class="text-box">
-        <p id="encouragement-text"></p>
-      </div>
+    <canvas id="game-board" width="400" height="400">
+      Your browser does not support the canvas element. Please upgrade to a modern browser.
+    </canvas>
+  </div>
+  <div class="encouragement-container">
+    <img src="https://i.imgur.com/cM65bUU.png" alt="Encouragement Sprite" class="sprite" role="img" aria-label="Encouragement Sprite">
+    <div class="text-box">
+      <p id="encouragement-text">Let's go! You can do it! 🎮</p>
     </div>
   </div>
-  <div class="difficulty-container">
-    <select id="difficulty-selector">
-      <option value="Easy">Easy</option>
-      <option value="Medium" selected>Medium</option>
-      <option value="Hard">Hard</option>
-    </select>
-  </div>
-  <div class="start-pause-container">
-    <button id="start-pause-button">Start/Pause</button>
-  </div>
-  <script src="script.js"></script>
+  <script>
+    // JavaScript will be embedded here
+  </script>
 </body>
 </html>
