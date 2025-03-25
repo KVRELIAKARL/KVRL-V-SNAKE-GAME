@@ -1,9 +1,8 @@
 const canvas = document.getElementById("game-board");
 const ctx = canvas.getContext("2d");
 const encouragementText = document.getElementById("encouragement-text");
-const textBox = document.querySelector(".text-box");
-const sprite = document.querySelector(".sprite");
-const encouragementContainer = document.querySelector(".encouragement-container");
+const difficultySelector = document.getElementById("difficulty-selector");
+const startPauseButton = document.getElementById("start-pause-button");
 
 // Game settings
 const gridSize = 20; // Size of each grid square
@@ -25,11 +24,11 @@ let obstacles = []; // Array to store obstacle positions
 const difficulties = {
   Easy: 150, // Slower pace
   Medium: 100, // Normal pace
-  Hard: 50, // Faster pace,
+  Hard: 50, // Faster pace
 };
 let currentDifficulty = "Medium"; // Default difficulty
 
-// Encouraging messages (including your custom messages)
+// Encouraging messages
 const messages = [
   "You're doing great! Keep going! 🌟",
   "Wow, you're amazing! 🐍",
@@ -42,6 +41,10 @@ const messages = [
   "FU Aiden! JK. 😜",
   "It also might spawn in the text box. 🫣",
   "Sorry for the inconveniences! - Karl 🙏",
+  "Phoebe Wrote all of these, I swear- 😨",
+  ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡",
+  "Nein. I did not bomb Berlin!",
+  "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!",
 ];
 
 // Display a random encouraging message
@@ -50,12 +53,14 @@ function showEncouragement() {
   encouragementText.textContent = randomMessage;
 
   // Trigger pop animation for text box
+  const textBox = document.querySelector(".text-box");
   textBox.style.animation = "none"; // Reset animation
   setTimeout(() => {
     textBox.style.animation = "pop 0.5s ease-in-out";
   }, 10);
 
   // Trigger shake animation for sprite
+  const sprite = document.querySelector(".sprite");
   sprite.style.animation = "none"; // Reset animation
   setTimeout(() => {
     sprite.style.animation = "shake 0.5s ease-in-out";
@@ -286,32 +291,12 @@ document.addEventListener("keydown", e => {
 });
 
 // Difficulty selector
-const difficultyContainer = document.createElement("div");
-difficultyContainer.classList.add("difficulty-container");
-document.body.appendChild(difficultyContainer);
-
-const difficultySelector = document.createElement("select");
-difficultySelector.innerHTML = `
-  <option value="Easy">Easy</option>
-  <option value="Medium" selected>Medium</option>
-  <option value="Hard">Hard</option>
-`;
-difficultyContainer.appendChild(difficultySelector);
-
 difficultySelector.addEventListener("change", () => {
   currentDifficulty = difficultySelector.value;
   resetGame(); // Reset game with new difficulty
 });
 
 // Start/Pause button
-const startPauseContainer = document.createElement("div");
-startPauseContainer.classList.add("start-pause-container");
-document.body.appendChild(startPauseContainer);
-
-const startPauseButton = document.createElement("button");
-startPauseButton.innerText = "Start/Pause";
-startPauseContainer.appendChild(startPauseButton);
-
 startPauseButton.addEventListener("click", () => {
   isPaused = !isPaused;
 });
