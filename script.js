@@ -1,94 +1,70 @@
+// DOM Elements
 const canvas = document.getElementById("game-board");
 const ctx = canvas.getContext("2d");
 const encouragementText = document.getElementById("encouragement-text");
-const textBox = document.querySelector(".text-box");
 const sprite = document.querySelector(".sprite");
 
-// Game settings
-const gridSize = 20;
-let tileCountX, tileCountY;
+// Game Constants
+const GRID_SIZE = 20;
+const TILE_COUNT = 20; // 400px canvas / 20px grid
 
-// Snake and food
+// Game State
 let snake = [{ x: 10, y: 10 }];
 let food = { x: 5, y: 5 };
 let direction = { x: 0, y: 0 };
-let nextDirection = { x: 0, y: 0 }; // Buffer for direction changes
+let nextDirection = { x: 0, y: 0 };
 let score = 0;
 let highScore = localStorage.getItem("highScore") || 0;
 let gameSpeed = 100;
-let isPaused = true; // Start paused
+let isPaused = true;
 let gameStarted = false;
 
-// Difficulty settings
+// Difficulty Levels
 const difficulties = {
   Easy: 150,
   Medium: 100,
-  Hard: 50,
+  Hard: 50
 };
 let currentDifficulty = "Medium";
 
-// Encouraging messages
+// Encouragement Messages
 const messages = [
-  "You're doing great! Keep going! 🌟",
-  "Wow, you're amazing! 🐍",
-  "Don't give up! You've got this! 💪",
-  "Yay! You're a snake superstar! 🎉",
-  "Keep slithering! You're unstoppable! 🚀",
-  "So close! Just a little more! 🍎",
+  "Great job! Keep going! 🌟",
+  "You're a snake charmer! 🐍",
+  "Unstoppable! 💪",
+  "Snake-tastic! 🎉",
+  "Legendary! 🏆",
+  "Wow! Just wow! ✨",
   "You're on fire! 🔥",
-  "Snake-tastic! Keep it up! 🐍✨",
+  "Perfect moves! 👑"
 ];
 
-// Display encouragement with animations
-function showEncouragement() {
-  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-  encouragementText.textContent = randomMessage;
-
-  // Reset and trigger animations
-  textBox.style.animation = "none";
-  sprite.style.animation = "none";
-  setTimeout(() => {
-    textBox.style.animation = "pop 0.5s ease-in-out";
-    sprite.style.animation = "shake 0.5s ease-in-out";
-  }, 10);
+// Initialize Canvas
+function setupCanvas() {
+  canvas.width = 400;
+  canvas.height = 400;
 }
 
-// Resize canvas responsively
-function resizeCanvas() {
-  const maxWidth = Math.min(400, window.innerWidth * 0.9);
-  const maxHeight = Math.min(400, window.innerHeight * 0.7);
-
-  tileCountX = Math.floor(maxWidth / gridSize);
-  tileCountY = Math.floor(maxHeight / gridSize);
-
-  canvas.width = tileCountX * gridSize;
-  canvas.height = tileCountY * gridSize;
-}
-
-// Main game loop
+// Game Loop
 function gameLoop() {
-  if (!isPaused && gameStarted) {
-    update();
-  }
+  if (!isPaused && gameStarted) update();
   draw();
   setTimeout(gameLoop, gameSpeed);
 }
 
-// Update game state
+// Update Game State
 function update() {
-  // Apply buffered direction
   direction = { ...nextDirection };
-
   const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
 
   // Wall collision
-  if (head.x < 0 || head.x >= tileCountX || head.y < 0 || head.y >= tileCountY) {
+  if (head.x < 0 || head.x >= TILE_COUNT || head.y < 0 || head.y >= TILE_COUNT) {
     gameOver();
     return;
   }
 
   // Self collision
-  if (snake.some((segment, index) => index > 0 && segment.x === head.x && segment.y === head.y)) {
+  if (snake.some((seg, i) => i > 0 && seg.x === head.x && seg.y === head.y)) {
     gameOver();
     return;
   }
@@ -110,7 +86,7 @@ function update() {
   }
 }
 
-// Draw everything
+// Draw Game
 function draw() {
   // Clear canvas
   ctx.fillStyle = "#000";
@@ -118,19 +94,17 @@ function draw() {
 
   // Draw snake
   ctx.fillStyle = "lime";
-  snake.forEach(segment => {
-    ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1); // -1 for grid lines
+  snake.forEach(seg => {
+    ctx.fillRect(seg.x * GRID_SIZE, seg.y * GRID_SIZE, GRID_SIZE-1, GRID_SIZE-1);
   });
 
   // Draw food
   ctx.fillStyle = "red";
   ctx.beginPath();
   ctx.arc(
-    food.x * gridSize + gridSize / 2,
-    food.y * gridSize + gridSize / 2,
-    gridSize / 2 - 1,
-    0,
-    Math.PI * 2
+    food.x * GRID_SIZE + GRID_SIZE/2,
+    food.y * GRID_SIZE + GRID_SIZE/2,
+    GRID_SIZE/2 - 1, 0, Math.PI * 2
   );
   ctx.fill();
 
@@ -141,41 +115,47 @@ function draw() {
   ctx.fillText(`High Score: ${highScore}`, 10, 40);
   ctx.fillText(`Difficulty: ${currentDifficulty}`, 10, 60);
 
-  // Draw pause/game over messages
+  // Game messages
   if (!gameStarted) {
     ctx.font = "24px Arial";
-    ctx.fillText("Press Space to Start", canvas.width / 2 - 100, canvas.height / 2);
+    ctx.fillText("Press SPACE to Start", 70, 200);
   } else if (isPaused) {
     ctx.font = "24px Arial";
-    ctx.fillText("PAUSED", canvas.width / 2 - 50, canvas.height / 2);
+    ctx.fillText("PAUSED", 160, 200);
   }
 }
 
-// Place food avoiding snake
+// Game Functions
 function placeFood() {
-  const safeAreaHeight = tileCountY - 2;
-  
   do {
     food = {
-      x: Math.floor(Math.random() * tileCountX),
-      y: Math.floor(Math.random() * safeAreaHeight)
+      x: Math.floor(Math.random() * TILE_COUNT),
+      y: Math.floor(Math.random() * TILE_COUNT)
     };
-  } while (snake.some(segment => segment.x === food.x && segment.y === food.y));
+  } while (snake.some(seg => seg.x === food.x && seg.y === food.y));
 }
 
-// Increase difficulty gradually
 function increaseSpeed() {
   gameSpeed = Math.max(50, difficulties[currentDifficulty] - (score * 2));
 }
 
-// Game over handler
+function showEncouragement() {
+  encouragementText.textContent = messages[Math.floor(Math.random() * messages.length)];
+  sprite.classList.remove("shake");
+  encouragementText.parentElement.classList.remove("pop");
+  setTimeout(() => {
+    sprite.classList.add("shake");
+    encouragementText.parentElement.classList.add("pop");
+  }, 10);
+}
+
 function gameOver() {
   isPaused = true;
   gameStarted = false;
-  setTimeout(resetGame, 1500); // Brief delay before reset
+  encouragementText.textContent = "Game Over! Press SPACE";
+  setTimeout(resetGame, 1000);
 }
 
-// Reset game state
 function resetGame() {
   snake = [{ x: 10, y: 10 }];
   direction = { x: 0, y: 0 };
@@ -185,7 +165,7 @@ function resetGame() {
   placeFood();
 }
 
-// Input handling
+// Event Listeners
 document.addEventListener("keydown", e => {
   if (!gameStarted && e.key === " ") {
     gameStarted = true;
@@ -194,57 +174,36 @@ document.addEventListener("keydown", e => {
   }
 
   switch (e.key) {
-    case "ArrowUp":
-      if (direction.y === 0) nextDirection = { x: 0, y: -1 };
-      break;
-    case "ArrowDown":
-      if (direction.y === 0) nextDirection = { x: 0, y: 1 };
-      break;
-    case "ArrowLeft":
-      if (direction.x === 0) nextDirection = { x: -1, y: 0 };
-      break;
-    case "ArrowRight":
-      if (direction.x === 0) nextDirection = { x: 1, y: 0 };
-      break;
-    case " ":
-      if (gameStarted) isPaused = !isPaused;
-      break;
+    case "ArrowUp": if (direction.y === 0) nextDirection = { x: 0, y: -1 }; break;
+    case "ArrowDown": if (direction.y === 0) nextDirection = { x: 0, y: 1 }; break;
+    case "ArrowLeft": if (direction.x === 0) nextDirection = { x: -1, y: 0 }; break;
+    case "ArrowRight": if (direction.x === 0) nextDirection = { x: 1, y: 0 }; break;
+    case " ": isPaused = !isPaused; break;
   }
 });
 
-// Difficulty selector
+// UI Controls
 const difficultySelector = document.createElement("select");
 difficultySelector.innerHTML = `
   <option value="Easy">Easy</option>
   <option value="Medium" selected>Medium</option>
   <option value="Hard">Hard</option>
 `;
-document.querySelector(".difficulty-container").appendChild(difficultySelector);
-
 difficultySelector.addEventListener("change", () => {
   currentDifficulty = difficultySelector.value;
   resetGame();
 });
+document.querySelector(".difficulty-container").appendChild(difficultySelector);
 
-// Start/Pause button
-const startPauseButton = document.createElement("button");
-startPauseButton.textContent = "Start/Pause";
-document.querySelector(".start-pause-container").appendChild(startPauseButton);
-
-startPauseButton.addEventListener("click", () => {
-  if (!gameStarted) {
-    gameStarted = true;
-  }
+const pauseButton = document.createElement("button");
+pauseButton.textContent = "Pause/Resume";
+pauseButton.addEventListener("click", () => {
+  if (!gameStarted) gameStarted = true;
   isPaused = !isPaused;
 });
+document.querySelector(".start-pause-container").appendChild(pauseButton);
 
-// Window resize handler
-window.addEventListener("resize", () => {
-  resizeCanvas();
-  resetGame();
-});
-
-// Initialize game
-resizeCanvas();
+// Initialize Game
+setupCanvas();
 placeFood();
 gameLoop();
