@@ -3,11 +3,11 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', Arial, sans-serif;
   background-color: #f0f0f0;
-  overflow: hidden; /* Prevent scrolling */
+  overflow: auto;
 }
 
 h1 {
@@ -23,18 +23,18 @@ h1 {
   width: 100%;
   height: 100%;
   background-color: #000;
-  border: 5px solid #ff6f61; /* Add a bright border */
-  box-sizing: border-box; /* Ensure the border is included in the dimensions */
+  border: 5px solid #333;
+  box-sizing: border-box;
 }
 
 canvas {
   max-width: 100%;
-  max-height: 80vh; /* Limit canvas height to 80% of viewport height */
+  max-height: 80vh;
   background-color: #000;
 }
 
 .encouragement-container {
-  display: flex; /* Always visible */
+  display: flex;
   align-items: center;
   margin-top: 20px;
   background-color: #fff;
@@ -42,10 +42,7 @@ canvas {
   border-radius: 10px;
   padding: 10px;
   width: 400px;
-  position: absolute; /* Position absolutely to avoid being pushed out */
-  bottom: 100px; /* Position above the buttons */
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Center horizontally */
+  position: relative;
 }
 
 .sprite {
@@ -53,28 +50,18 @@ canvas {
   height: 80px;
   border-radius: 50%;
   margin-right: 10px;
-  background-image: url("https://i.imgur.com/cM65bUU.png"); /* Direct link to the Imgur image */
-  background-size: cover; /* Ensure the image covers the entire circle */
-  background-position: center; /* Center the image */
+  background-image: url("https://i.imgur.com/cM65bUU.png");
+  background-size: cover;
+  background-position: center;
   animation: shake 0.5s ease-in-out;
 }
 
 @keyframes shake {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-5px);
-  }
-  50% {
-    transform: translateX(5px);
-  }
-  75% {
-    transform: translateX(-5px);
-  }
-  100% {
-    transform: translateX(0);
-  }
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
 }
 
 .text-box {
@@ -83,39 +70,32 @@ canvas {
   border: 2px solid #ff99cc;
   border-radius: 10px;
   padding: 10px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: 'Poppins', cursive, sans-serif;
   color: #ff6699;
   font-size: 18px;
   animation: pop 0.5s ease-in-out;
 }
 
 @keyframes pop {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 #encouragement-text {
   margin: 0;
 }
 
-/* Difficulty selector positioning */
-.difficulty-container {
+.difficulty-container, .start-pause-container {
   position: absolute;
   bottom: 20px;
+}
+
+.difficulty-container {
   left: 20px;
 }
 
-/* Play/Pause button positioning */
 .start-pause-container {
-  position: absolute;
-  bottom: 20px;
   right: 20px;
 }
 
@@ -123,13 +103,24 @@ select, button {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  background-color: #ff6f61;
+  background: linear-gradient(45deg, #ff6f61, #ff4a3d);
   color: white;
   border: none;
   border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s;
 }
 
 select:hover, button:hover {
-  background-color: #ff4a3d;
+  background: linear-gradient(45deg, #ff4a3d, #ff6f61);
+}
+
+@media (max-width: 600px) {
+  .encouragement-container {
+    width: 90%;
+    font-size: 16px;
+  }
+  canvas {
+    max-height: 60vh;
+  }
 }
