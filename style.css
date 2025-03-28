@@ -7,27 +7,33 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 h1 {
   margin-bottom: 20px;
-  color: #333;
 }
 
 .game-container {
-  border: 2px solid #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   background-color: #000;
-  position: relative;
+  border: 5px solid #ff6f61; /* Add a bright border */
+  box-sizing: border-box; /* Ensure the border is included in the dimensions */
 }
 
 canvas {
-  display: block;
-  margin: 0 auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  max-width: 100%;
+  max-height: 80vh; /* Limit canvas height to 80% of viewport height */
+  background-color: #000;
 }
 
 .encouragement-container {
-  display: flex;
+  display: flex; /* Always visible */
   align-items: center;
   margin-top: 20px;
   background-color: #fff;
@@ -35,7 +41,7 @@ canvas {
   border-radius: 10px;
   padding: 10px;
   width: 400px;
-  position: absolute;
+  position: absolute; /* Position absolutely to avoid being pushed out */
   bottom: 100px; /* Position above the buttons */
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Center horizontally */
@@ -44,21 +50,30 @@ canvas {
 .sprite {
   width: 80px;
   height: 80px;
-  background-color: pink;
   border-radius: 50%;
   margin-right: 10px;
-  background-image: url("https://i.imgur.com/cM65bUU.png"); /* Add a cute sprite image */
+  background-image: url("https://i.imgur.com/cM65bUU.png"); /* Direct link to the Imgur image */
   background-size: cover;
   background-position: center;
   animation: shake 0.5s ease-in-out;
 }
 
 @keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .text-box {
@@ -74,9 +89,15 @@ canvas {
 }
 
 @keyframes pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 #encouragement-text {
