@@ -1,8 +1,9 @@
 const canvas = document.getElementById("game-board");
 const ctx = canvas.getContext("2d");
 const encouragementText = document.getElementById("encouragement-text");
-const difficultySelector = document.getElementById("difficulty-selector");
-const startPauseButton = document.getElementById("start-pause-button");
+const textBox = document.querySelector(".text-box");
+const sprite = document.querySelector(".sprite");
+const encouragementContainer = document.querySelector(".encouragement-container");
 
 // Game settings
 const gridSize = 20; // Size of each grid square
@@ -16,9 +17,6 @@ let score = 0;
 let highScore = localStorage.getItem("highScore") || 0; // Load high score
 let gameSpeed = 100; // Initial game speed
 let isPaused = false;
-
-// Obstacles
-let obstacles = []; // Array to store obstacle positions
 
 // Difficulty settings
 const difficulties = {
@@ -38,13 +36,6 @@ const messages = [
   "So close! Just a little more! 🍎",
   "You're on fire! 🔥",
   "Snake-tastic! Keep it up! 🐍✨",
-  "FU Aiden! JK. 😜",
-  "It also might spawn in the text box. 🫣",
-  "Sorry for the inconveniences! - Karl 🙏",
-  "Phoebe Wrote all of these, I swear- 😨",
-  ".- .. -.. . -. / .-.. .. -.- . ... / -- . -. 🫡",
-  "Nein. I did not bomb Berlin!",
-  "MR PRESIDENT! THEY JUST HIT THE TWIN TOWERS!",
 ];
 
 // Display a random encouraging message
@@ -53,14 +44,12 @@ function showEncouragement() {
   encouragementText.textContent = randomMessage;
 
   // Trigger pop animation for text box
-  const textBox = document.querySelector(".text-box");
   textBox.style.animation = "none"; // Reset animation
   setTimeout(() => {
     textBox.style.animation = "pop 0.5s ease-in-out";
   }, 10);
 
   // Trigger shake animation for sprite
-  const sprite = document.querySelector(".sprite");
   sprite.style.animation = "none"; // Reset animation
   setTimeout(() => {
     sprite.style.animation = "shake 0.5s ease-in-out";
@@ -79,59 +68,6 @@ function resizeCanvas() {
   // Set canvas dimensions
   canvas.width = tileCountX * gridSize;
   canvas.height = tileCountY * gridSize;
-}
-
-// Generate longer obstacles
-function generateObstacles() {
-  obstacles = [];
-  const obstacleCount = 5; // Number of obstacles to generate
-
-  for (let i = 0; i < obstacleCount; i++) {
-    // Randomly decide if the obstacle will be horizontal or vertical
-    const isHorizontal = Math.random() < 0.5;
-    const length = Math.floor(Math.random() * 5) + 2; // Obstacle length (2 to 6 tiles)
-
-    // Generate starting position
-    let startX = Math.floor(Math.random() * tileCountX);
-    let startY = Math.floor(Math.random() * tileCountY);
-
-    // Adjust starting position to ensure the obstacle fits within the canvas
-    if (isHorizontal) {
-      startX = Math.min(startX, tileCountX - length);
-    } else {
-      startY = Math.min(startY, tileCountY - length);
-    }
-
-    // Generate obstacle segments
-    const obstacle = [];
-    for (let j = 0; j < length; j++) {
-      if (isHorizontal) {
-        obstacle.push({ x: startX + j, y: startY });
-      } else {
-        obstacle.push({ x: startX, y: startY + j });
-      }
-    }
-
-    // Ensure obstacles don't spawn on the snake or food
-    const isOverlapping = obstacle.some(segment =>
-      snake.some(s => s.x === segment.x && s.y === segment.y) ||
-      (food.x === segment.x && food.y === segment.y)
-    );
-
-    if (!isOverlapping) {
-      obstacles.push(...obstacle);
-    } else {
-      i--; // Retry generating this obstacle
-    }
-  }
-}
-
-// Draw obstacles
-function drawObstacles() {
-  ctx.fillStyle = "#800080"; // Purple color for obstacles
-  obstacles.forEach(obstacle => {
-    ctx.fillRect(obstacle.x * gridSize, obstacle.y * gridSize, gridSize, gridSize);
-  });
 }
 
 // Game loop
@@ -160,12 +96,6 @@ function update() {
     return;
   }
 
-  // Check for obstacle collision
-  if (obstacles.some(obstacle => obstacle.x === head.x && obstacle.y === head.y)) {
-    gameOver();
-    return;
-  }
-
   // Add new head
   snake.unshift(head);
 
@@ -179,15 +109,10 @@ function update() {
     placeFood();
     increaseSpeed(); // Increase speed as score increases
 
-    // Show encouragement when food is eaten
+    // Show encouragement and trigger animations
     showEncouragement();
   } else {
     snake.pop(); // Remove tail if no food eaten
-  }
-
-  // Show encouragement randomly (e.g., every 5 seconds)
-  if (Math.random() < 0.02) { // 2% chance per frame
-    showEncouragement();
   }
 }
 
@@ -196,9 +121,6 @@ function draw() {
   // Clear canvas
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Draw obstacles
-  drawObstacles();
 
   // Draw snake
   ctx.fillStyle = "lime";
@@ -238,11 +160,8 @@ function placeFood() {
     y: Math.floor(Math.random() * safeAreaHeight)
   };
 
-  // Ensure food doesn't spawn on the snake or obstacles
-  if (
-    snake.some(segment => segment.x === food.x && segment.y === food.y) ||
-    obstacles.some(obstacle => obstacle.x === food.x && obstacle.y === food.y)
-  ) {
+  // Ensure food doesn't spawn on the snake
+  if (snake.some(segment => segment.x === food.x && segment.y === food.y)) {
     placeFood(); // Recursively place food again
   }
 }
@@ -266,7 +185,6 @@ function resetGame() {
   score = 0;
   gameSpeed = difficulties[currentDifficulty]; // Reset speed based on difficulty
   placeFood();
-  generateObstacles(); // Regenerate obstacles
 }
 
 // Handle keyboard input
@@ -291,12 +209,32 @@ document.addEventListener("keydown", e => {
 });
 
 // Difficulty selector
+const difficultyContainer = document.createElement("div");
+difficultyContainer.classList.add("difficulty-container");
+document.body.appendChild(difficultyContainer);
+
+const difficultySelector = document.createElement("select");
+difficultySelector.innerHTML = `
+  <option value="Easy">Easy</option>
+  <option value="Medium" selected>Medium</option>
+  <option value="Hard">Hard</option>
+`;
+difficultyContainer.appendChild(difficultySelector);
+
 difficultySelector.addEventListener("change", () => {
   currentDifficulty = difficultySelector.value;
   resetGame(); // Reset game with new difficulty
 });
 
 // Start/Pause button
+const startPauseContainer = document.createElement("div");
+startPauseContainer.classList.add("start-pause-container");
+document.body.appendChild(startPauseContainer);
+
+const startPauseButton = document.createElement("button");
+startPauseButton.innerText = "Start/Pause";
+startPauseContainer.appendChild(startPauseButton);
+
 startPauseButton.addEventListener("click", () => {
   isPaused = !isPaused;
 });
@@ -310,5 +248,4 @@ window.addEventListener("resize", () => {
 // Start the game
 resizeCanvas(); // Initialize canvas size
 placeFood();
-generateObstacles(); // Generate initial obstacles
 gameLoop();
